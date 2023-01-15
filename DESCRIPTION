@@ -28,6 +28,8 @@ Imports:
     doParallel (>= 1.0.11),
     parallel (>= 3.5.0),
     doSNOW (>= 1.0.16),
+    Rmpi (>= 0.6-9.2),
+    doMPI (>= 0.2.2),
     data.table (>= 1.11.4),
     tibble (>= 1.4.2),
     purrr (>= 0.2.5),
