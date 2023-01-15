@@ -311,16 +311,17 @@ find_tails <- function(fast5_dir,
     }
 
     # Make a compute cluster
-    cat(paste(cli::symbol$bullet,' Starting a parallel compute cluster...\n', sep=''))
-    #cl <- parallel::makeCluster(num_cores, outfile='')
-    cl <- parallel::makeCluster(num_cores)
-    on.exit(parallel::stopCluster(cl))
-
-    doSNOW::registerDoSNOW(cl)
-    `%dopar%` <- foreach::`%dopar%`
-    `%do%` <- foreach::`%do%`
-    cat('  Done!\n')
-    mcoptions <- list(preschedule = TRUE, set.seed = FALSE, cleanup = FALSE)
+cat(paste(cli::symbol$bullet,' Starting a parallel compute cluster...\n', sep=''))
+# Start an MPI cluster with the specified number of cores
+cl <- doMPI::startMPIcluster()
+# Register the cluster with doMPI
+on.exit(doMPI::closeCluster(cl))
+doMPI::registerDoMPI(cl)
+# Use the %dopar% operator from doMPI instead of foreach
+`%dopar%` <- foreach::`%dopar%`
+`%do%` <- foreach::`%do%`
+cat('  Done!\n')
+mcoptions <- list(preschedule = TRUE, set.seed = FALSE, cleanup = FALSE)
 
     # if the data is DNA then make a substitution matrix
     if (experiment_type == 'dna') {
