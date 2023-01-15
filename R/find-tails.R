@@ -318,8 +318,8 @@ cl <- doMPI::startMPIcluster()
 on.exit(doMPI::closeCluster(cl))
 doMPI::registerDoMPI(cl)
 # Use the %dopar% operator from doMPI instead of foreach
-`%dopar%` <- foreach::`%dopar%`
-`%do%` <- foreach::`%do%`
+`%dopar%` <- doMPI::`%dopar%`
+`%do%` <- doMPI::`%do%`
 cat('  Done!\n')
 mcoptions <- list(preschedule = TRUE, set.seed = FALSE, cleanup = FALSE)
 
